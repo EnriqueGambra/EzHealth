@@ -1,0 +1,27 @@
+#BlueJ class context
+comment0.target=DoctorAppointmentView
+comment1.params=date\ doctorID
+comment1.target=DoctorAppointmentView(java.lang.String,\ int)
+comment10.params=
+comment10.target=void\ loadData()
+comment10.text=\r\n\ Load\ data\ from\ the\ database\ and\ populate\ the\ GUI\r\n
+comment2.params=
+comment2.target=void\ run()
+comment3.params=
+comment3.target=void\ createJFrame()
+comment4.params=
+comment4.target=void\ createJLabel()
+comment5.params=
+comment5.target=void\ createJTextField()
+comment6.params=
+comment6.target=void\ createJButton()
+comment7.params=date\ doctorID
+comment7.target=java.util.ArrayList\ getPatientsFirstName(java.lang.String,\ int)
+comment7.text=\r\n\ @pre\r\n\ @param\ date\r\n\ @param\ doctorID\r\n\ @return\ -\ an\ ArrayList\ containing\ strings\ of\ patients\ first\ names\ that\ have\ scheduled\ appointments,\ or\ null\ if\ exception\ occurs\r\n
+comment8.params=date\ doctorID
+comment8.target=java.util.ArrayList\ getPatientsLastName(java.lang.String,\ int)
+comment8.text=\r\n\ @pre\r\n\ @param\ date\r\n\ @param\ doctorID\r\n\ @return\ -\ an\ ArrayList\ containing\ strings\ of\ patients\ last\ names\ that\ have\ scheduled\ appointments,\ or\ null\ if\ exception\ occurs\r\n
+comment9.params=date\ doctorID
+comment9.target=java.util.ArrayList\ getTimesScheduled(java.lang.String,\ int)
+comment9.text=\r\n\ @pre\r\n\ @param\ date\r\n\ @param\ doctorID\r\n\ @return\ -\ an\ ArrayList\ containing\ strings\ of\ times\ scheduled\ for\ appointments,\ or\ null\ if\ exception\ occurs\r\n
+numComments=11

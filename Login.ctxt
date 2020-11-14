@@ -1,0 +1,21 @@
+#BlueJ class context
+comment0.target=Login
+comment0.text=\r\n\ Login\ screen\ and\ functionality\ of\ EzHealth\r\n\r\n\ @Derrick\ Persaud\ &\ Enrique\ Gambra\r\n\ @Sprint\ 1\r\n
+comment1.params=stage
+comment1.target=void\ start(javafx.stage.Stage)
+comment2.params=event
+comment2.target=void\ signIn(javafx.event.ActionEvent)
+comment2.text=\r\n\ signIn\r\n\ Button\ method\ for\ loginButton\r\n\ Tests\ user\ input\ for\ signing\ in\r\n
+comment3.params=event
+comment3.target=void\ create(javafx.event.ActionEvent)
+comment3.text=\r\n\ create\r\n\ Button\ method\ for\ createTextFlow\r\n\ Takes\ user\ to\ the\ create\ screens\r\n
+comment4.params=username\ password
+comment4.target=java.lang.String\ getRole(java.lang.String,\ java.lang.String)
+comment4.text=\r\n\ @pre\ The\ parameters\ passed\ in\ must\ be\ Strings\ and\ must\ be\ a\ valid\ username\r\n\ \ \ \ and\ password\ combo\ already\ in\ the\ database\r\n\ @param\ username\r\n\ @param\ password\ \r\n\ @post\ Database\ has\ checked\ the\ user's\ role\r\n\ @return\ "p"\ if\ the\ user\ is\ a\ patient,\ "d"\ if\ doctor,\ "r"\ if\ receptionist,\r\n\ \ \ \ ""\ if\ no\ role\r\n
+comment5.params=username\ password
+comment5.target=boolean\ checkUserAndPassword(java.lang.String,\ java.lang.String)
+comment5.text=\r\n\ @pre\ The\ parameters\ passed\ in\ must\ be\ Strings\r\n\ @param\ username\r\n\ @param\ password\ \r\n\ @post\ Database\ has\ checked\ whether\ the\ user\ is\ in\ the\ database\r\n\ @return\ True\ or\ False\ depending\ on\ if\ user\ is\ in\ the\ database\r\n
+comment6.params=
+comment6.target=java.lang.String\ getUsername()
+comment6.text=\r\n\ getUsername\r\n
+numComments=7

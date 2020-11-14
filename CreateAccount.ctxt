@@ -1,0 +1,31 @@
+#BlueJ class context
+comment0.target=CreateAccount
+comment0.text=\r\n\ Create\ account\ screen\ and\ functionality\ of\ EzHealth\r\n\r\n\ @Derrick\ Persaud\ &\ Enrique\ Gambra\r\n\ @Sprint\ 1\r\n
+comment1.params=stage
+comment1.target=void\ start(javafx.stage.Stage)
+comment10.params=
+comment10.target=int\ nextRowPatient()
+comment2.params=event
+comment2.target=void\ submit(javafx.event.ActionEvent)
+comment2.text=\r\n\ submit\r\n\ Checks\ user\ input\ and\ creates\ a\ new\ user\ in\ the\ database\r\n\ If\ information\ is\ missing\ or\ invalid\ an\ appropriate\ error\ will\ be\ displayed\r\n
+comment3.params=event
+comment3.target=void\ signIn(javafx.event.ActionEvent)
+comment3.text=\r\n\ signIn\r\n\ Returns\ the\ user\ to\ the\ sign-in\ screen\r\n
+comment4.params=username
+comment4.target=boolean\ checkUsernameAvailable(java.lang.String)
+comment4.text=\r\n\ @pre\ The\ parameter\ passed\ in\ must\ be\ a\ string,\ must\ not\ be\ a\ username\ already\ used\ \r\n\ @param\ username\ (String)\ new\ user's\ attempted\ username\r\n\ @post\ Database\ has\ checked\ whether\ the\ value\ passed\ in\ is\ already\ within\ the\ database\r\n\ @return\ True\ or\ false\ if\ the\ database\ already\ contains\ the\ username\ value\r\n
+comment5.params=password\ reEnterPass
+comment5.target=boolean\ doPasswordsMatch(java.lang.String,\ java.lang.String)
+comment5.text=\r\n\ @pre\ String\ values\ passed\ in,\ values\ passed\ must\ match\r\n\ @param\ password\ (String)\ -\ password\ new\ user\ is\ attempting\ to\ use\r\n\ @param\ reEnterPass\ (String)\ -\ password\ new\ user\ is\ attempting\ to\ use\r\n\ @post\ Password\ fields\ determined\ to\ be\ valid/invalid\ based\ off\ of\ containing\ same\ exact\ characters\r\n\ @return\ True\ if\ password\ and\ reEnterPass\ match,\ false\ if\ they\ don't\r\n
+comment6.params=username\ password\ reEnterPass\ firstName\ lastName\ birthday
+comment6.target=boolean\ hasEmptyField(java.lang.String,\ java.lang.String,\ java.lang.String,\ java.lang.String,\ java.lang.String,\ java.time.LocalDate)
+comment6.text=\r\n\ @pre\ String\ values\ passed\ in,\ must\ not\ contain\ an\ empty\ field\ for\ any\ of\ the\ parameters\ passed\ in\r\n\ @param\ username\ (String)\ -\ new\ user's\ username\r\n\ @param\ password\ (String)\ -\ user's\ password\r\n\ @param\ reEnterPass\ (String)\ -\ user's\ password\ (re-entered)\r\n\ @param\ firstName\ (String)\ -\ new\ user's\ first\ name\r\n\ @param\ lastName\ (String)\ -\ new\ user's\ last\ name\r\n\ @param\ birthday\ (LocalDate)\ -\ new\ user's\ birthday\r\n\ @post\ Correctly\ determines\ if\ there\ is\ an\ empty\ field\ in\ the\ create\ account\ screen\r\n\ @return\ True\ if\ there\ is\ an\ empty\ field\ (empty\ string)\ false\ if\ all\ fields\ have\ been\ filled\r\n
+comment7.params=password
+comment7.target=boolean\ compliesToPasswordLength(java.lang.String)
+comment7.text=\r\n\ @pre\ String\ password\ passed\ in,\ 0\ <\ password.length()\ <\=\ 18\r\n\ @param\ password\ (String)\ -\ password\ new\ user\ is\ attempting\ to\ use\r\n\ @post\ Password\ fields\ determined\ to\ be\ valid/invalid\ based\ off\ of\ complying\ to\ password\ length\ constraints\r\n\ @return\ True\ if\ password\ has\ valid\ length,\ false\ if\ password\ fails\ to\ meet\ length\ requirements\r\n
+comment8.params=username\ password\ firstName\ lastName\ birthday
+comment8.target=boolean\ insertIntoDB(java.lang.String,\ java.lang.String,\ java.lang.String,\ java.lang.String,\ java.lang.String)
+comment8.text=\r\n\ @pre\ parameters\ passed\ in\ must\ apply\ to\ error\ handling\ checks\ prior\ to\ calling\ this\ method\r\n\ @param\ username\ (String)\ -\ new\ user's\ username\r\n\ @param\ password\ (String)\ -\ new\ user's\ password\r\n\ @param\ firstName\ (String)\ -\ new\ user's\ first\ name\r\n\ @param\ lastName\ (String)\ -\ new\ user's\ last\ name\r\n\ @param\ birthday\ (String)\ -\ new\ user's\ birthday\r\n\ @post\ User\ inserted\ into\ database\ or\ encountered\ error\r\n\ @return\ returns\ true\ if\ user\ inserted\ into\ DB\ successfully,\ false\ if\ error\ occured\r\n
+comment9.params=
+comment9.target=int\ nextRowUsers()
+numComments=11
