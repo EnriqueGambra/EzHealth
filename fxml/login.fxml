@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="780.0" prefWidth="1280.0" style="-fx-background-color: #70f8ff;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Login">
+   <children>
+      <Label fx:id="healthLabel" alignment="TOP_CENTER" layoutX="339.0" layoutY="35.0" prefHeight="140.0" prefWidth="562.0" style="-fx-font-size: 120; -fx-font-weight: 100;" text="     Health" textAlignment="CENTER" textFill="RED" AnchorPane.bottomAnchor="569.0" AnchorPane.leftAnchor="339.0" AnchorPane.rightAnchor="379.0" AnchorPane.topAnchor="35.0">
+         <font>
+            <Font name="Berlin Sans FB Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label fx:id="ezLabel" alignment="TOP_CENTER" layoutX="196.0" layoutY="35.0" prefHeight="93.0" prefWidth="491.0" style="-fx-font-size: 120; -fx-font-weight: 100;" text="Ez" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="569.0" AnchorPane.leftAnchor="196.0" AnchorPane.rightAnchor="522.0" AnchorPane.topAnchor="35.0">
+         <font>
+            <Font name="Blackadder ITC" size="12.0" />
+         </font>
+      </Label>
+      <TextField fx:id="usernameField" layoutX="505.0" layoutY="245.0" prefHeight="50.0" prefWidth="325.0" promptText="Username" AnchorPane.bottomAnchor="485.0" AnchorPane.leftAnchor="505.0" AnchorPane.rightAnchor="450.0" AnchorPane.topAnchor="245.0">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </TextField>
+      <PasswordField fx:id="passwordField" layoutX="505.0" layoutY="312.0" prefHeight="23.0" prefWidth="325.0" promptText="Password" AnchorPane.bottomAnchor="418.0" AnchorPane.leftAnchor="505.0" AnchorPane.rightAnchor="450.0" AnchorPane.topAnchor="312.0">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </PasswordField>
+      <ImageView fx:id="userImage" fitHeight="50.0" fitWidth="50.0" layoutX="439.0" layoutY="245.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="439.0" AnchorPane.rightAnchor="791.0" AnchorPane.topAnchor="245.0">
+         <image>
+            <Image url="@../icons/user-image.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="passImage" fitHeight="50.0" fitWidth="50.0" layoutX="439.0" layoutY="312.0" pickOnBounds="true" preserveRatio="true" rotate="42.2" AnchorPane.bottomAnchor="418.0" AnchorPane.leftAnchor="439.0" AnchorPane.rightAnchor="791.0">
+         <image>
+            <Image url="@../icons/key-image.png" />
+         </image>
+         <effect>
+            <ColorAdjust hue="-0.1" />
+         </effect>
+      </ImageView>
+      <Button fx:id="signInButton" layoutX="614.0" layoutY="380.0" mnemonicParsing="false" onAction="#signIn" prefHeight="42.0" prefWidth="108.0" style="-fx-background-color: #2dbfff;" text="Login" textFill="WHITE" AnchorPane.bottomAnchor="358.0" AnchorPane.leftAnchor="614.0" AnchorPane.rightAnchor="558.0" AnchorPane.topAnchor="380.0">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Button>
+      <Button fx:id="signUpButton" layoutX="744.0" layoutY="431.0" mnemonicParsing="false" onAction="#create" prefHeight="35.0" prefWidth="108.0" style="-fx-region-background: false;" text="Sign-Up" textFill="#001eff" underline="true" AnchorPane.bottomAnchor="314.0" AnchorPane.leftAnchor="744.0" AnchorPane.rightAnchor="428.0" AnchorPane.topAnchor="431.0">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
+      <Text fx:id="newText" layoutX="651.0" layoutY="455.0" strokeType="OUTSIDE" strokeWidth="0.0" text="New to EzHealth?  " wrappingWidth="125.13671875" AnchorPane.bottomAnchor="320.0" AnchorPane.leftAnchor="651.0" AnchorPane.rightAnchor="503.86328125" AnchorPane.topAnchor="439.0">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Text>
+   </children>
+</AnchorPane>

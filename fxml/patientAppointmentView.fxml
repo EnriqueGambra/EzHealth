@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="780.0" prefWidth="1280.0" style="-fx-background-color: #70f8ff;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="PatientAppointmentView">
+   <children>
+      <Label fx:id="healthLabel" alignment="TOP_CENTER" layoutX="339.0" layoutY="35.0" prefHeight="140.0" prefWidth="562.0" style="-fx-font-size: 120; -fx-font-weight: 100;" text="     Health" textAlignment="CENTER" textFill="RED" AnchorPane.bottomAnchor="569.0" AnchorPane.leftAnchor="339.0" AnchorPane.rightAnchor="379.0" AnchorPane.topAnchor="35.0">
+         <font>
+            <Font name="Berlin Sans FB Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label fx:id="ezLabel" alignment="TOP_CENTER" layoutX="196.0" layoutY="35.0" prefHeight="93.0" prefWidth="491.0" style="-fx-font-size: 120; -fx-font-weight: 100;" text="Ez" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="569.0" AnchorPane.leftAnchor="196.0" AnchorPane.rightAnchor="522.0" AnchorPane.topAnchor="35.0">
+         <font>
+            <Font name="Blackadder ITC" size="12.0" />
+         </font>
+      </Label>
+      <Button fx:id="signOutButton" layoutX="1135.0" layoutY="725.0" mnemonicParsing="false" onAction="#signIn" prefHeight="35.0" prefWidth="108.0" style="-fx-region-background: false;" text="Sign-Out" textFill="#001eff" underline="true" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="1135.0" AnchorPane.rightAnchor="37.0" AnchorPane.topAnchor="725.0">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
+      <Label fx:id="appointmentLabel" layoutX="311.0" layoutY="187.0" prefHeight="65.0" prefWidth="698.0" text="Upcoming Appointment for " AnchorPane.bottomAnchor="528.0" AnchorPane.leftAnchor="311.0" AnchorPane.rightAnchor="271.0" AnchorPane.topAnchor="187.0">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Label>
+      <TableView fx:id="appointmentTableView" layoutX="311.0" layoutY="252.0" prefHeight="453.0" prefWidth="698.0" AnchorPane.bottomAnchor="75.0" AnchorPane.leftAnchor="311.0" AnchorPane.rightAnchor="271.0" AnchorPane.topAnchor="252.0">
+        <columns>
+          <TableColumn fx:id="timeColumn" minWidth="0.0" prefWidth="347.0" text="Time" />
+          <TableColumn fx:id="dateColumn" prefWidth="350.0" text="Date" />
+        </columns>
+      </TableView>
+   </children>
+</AnchorPane>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="780.0" prefWidth="1280.0" style="-fx-background-color: #70f8ff;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CreateAccount">
+   <children>
+      <Label fx:id="healthLabel" alignment="TOP_CENTER" layoutX="339.0" layoutY="35.0" prefHeight="140.0" prefWidth="562.0" style="-fx-font-size: 120; -fx-font-weight: 100;" text="     Health" textAlignment="CENTER" textFill="RED" AnchorPane.bottomAnchor="569.0" AnchorPane.leftAnchor="339.0" AnchorPane.rightAnchor="379.0" AnchorPane.topAnchor="35.0">
+         <font>
+            <Font name="Berlin Sans FB Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label fx:id="ezLabel" alignment="TOP_CENTER" layoutX="196.0" layoutY="35.0" prefHeight="93.0" prefWidth="491.0" style="-fx-font-size: 120; -fx-font-weight: 100;" text="Ez" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="569.0" AnchorPane.leftAnchor="196.0" AnchorPane.rightAnchor="522.0" AnchorPane.topAnchor="35.0">
+         <font>
+            <Font name="Blackadder ITC" size="12.0" />
+         </font>
+      </Label>
+      <TextField fx:id="firstNameField" layoutX="545.0" layoutY="211.0" prefHeight="50.0" prefWidth="325.0" promptText="First Name" AnchorPane.bottomAnchor="519.0" AnchorPane.leftAnchor="545.0" AnchorPane.rightAnchor="410.0" AnchorPane.topAnchor="210.0">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </TextField>
+      <Button fx:id="submitButton" layoutX="654.0" layoutY="622.0" mnemonicParsing="false" onAction="#submit" prefHeight="42.0" prefWidth="108.0" style="-fx-background-color: #2dbfff;" text="Submit" textFill="WHITE" AnchorPane.bottomAnchor="116.0" AnchorPane.leftAnchor="654.0" AnchorPane.rightAnchor="518.0" AnchorPane.topAnchor="622.0">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Button>
+      <Button fx:id="backButton" layoutX="793.0" layoutY="664.0" mnemonicParsing="false" onAction="#signIn" prefHeight="35.0" prefWidth="108.0" style="-fx-region-background: false;" text="Sign-In" textFill="#001eff" underline="true" AnchorPane.bottomAnchor="81.0" AnchorPane.leftAnchor="793.0" AnchorPane.rightAnchor="379.0" AnchorPane.topAnchor="664.0">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
+      <PasswordField fx:id="passField" layoutX="546.0" layoutY="481.0" prefHeight="23.0" prefWidth="325.0" promptText="Password" AnchorPane.bottomAnchor="249.0" AnchorPane.leftAnchor="546.0" AnchorPane.rightAnchor="409.0" AnchorPane.topAnchor="481.0">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </PasswordField>
+      <PasswordField fx:id="confirmPassField" layoutX="545.0" layoutY="549.0" prefHeight="23.0" prefWidth="325.0" promptText="Confirm Password" AnchorPane.bottomAnchor="181.0" AnchorPane.leftAnchor="545.0" AnchorPane.rightAnchor="410.0" AnchorPane.topAnchor="549.0">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </PasswordField>
+      <TextField fx:id="lastNameField" layoutX="546.0" layoutY="279.0" prefHeight="50.0" prefWidth="325.0" promptText="Last Name" AnchorPane.bottomAnchor="451.0" AnchorPane.leftAnchor="545.0" AnchorPane.rightAnchor="409.0" AnchorPane.topAnchor="280.0">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="usernameField" layoutX="545.0" layoutY="417.0" prefHeight="47.0" prefWidth="326.0" promptText="Username" AnchorPane.bottomAnchor="316.0" AnchorPane.leftAnchor="545.0" AnchorPane.rightAnchor="409.0" AnchorPane.topAnchor="417.0">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </TextField>
+      <Label fx:id="firstName" layoutX="378.0" layoutY="215.0" prefHeight="42.0" prefWidth="167.0" text="First Name: " AnchorPane.bottomAnchor="522.0" AnchorPane.leftAnchor="378.0" AnchorPane.rightAnchor="735.0" AnchorPane.topAnchor="215.0">
+         <font>
+            <Font size="29.0" />
+         </font>
+      </Label>
+      <Label fx:id="lastName" layoutX="378.0" layoutY="283.0" prefHeight="42.0" prefWidth="167.0" text="Last Name: " AnchorPane.bottomAnchor="454.0" AnchorPane.leftAnchor="378.0" AnchorPane.rightAnchor="735.0" AnchorPane.topAnchor="283.0">
+         <font>
+            <Font size="29.0" />
+         </font>
+      </Label>
+      <Label fx:id="birthday" layoutX="378.0" layoutY="352.0" prefHeight="42.0" prefWidth="167.0" text="Birthday: " AnchorPane.bottomAnchor="385.0" AnchorPane.leftAnchor="378.0" AnchorPane.rightAnchor="735.0" AnchorPane.topAnchor="352.0">
+         <font>
+            <Font size="29.0" />
+         </font>
+      </Label>
+      <Label fx:id="pass" layoutX="378.0" layoutY="485.0" prefHeight="42.0" prefWidth="167.0" text="Password:" AnchorPane.bottomAnchor="252.0" AnchorPane.leftAnchor="378.0" AnchorPane.rightAnchor="735.0" AnchorPane.topAnchor="485.0">
+         <font>
+            <Font size="29.0" />
+         </font>
+      </Label>
+      <Label fx:id="confirmPass" layoutX="378.0" layoutY="553.0" prefHeight="42.0" prefWidth="167.0" text="Confirm:" AnchorPane.bottomAnchor="184.0" AnchorPane.leftAnchor="378.0" AnchorPane.rightAnchor="735.0" AnchorPane.topAnchor="553.0">
+         <font>
+            <Font size="29.0" />
+         </font>
+      </Label>
+      <Label fx:id="username" layoutX="378.0" layoutY="419.0" prefHeight="42.0" prefWidth="167.0" text="Username: " AnchorPane.bottomAnchor="318.0" AnchorPane.leftAnchor="378.0" AnchorPane.rightAnchor="735.0" AnchorPane.topAnchor="419.0">
+         <font>
+            <Font size="29.0" />
+         </font>
+      </Label>
+      <DatePicker fx:id="datePicker" editable="false" layoutX="545.0" layoutY="350.0" prefHeight="47.0" prefWidth="325.0" AnchorPane.bottomAnchor="383.0" AnchorPane.leftAnchor="545.0" AnchorPane.rightAnchor="410.0" AnchorPane.topAnchor="350.0" />
+   </children>
+</AnchorPane>
