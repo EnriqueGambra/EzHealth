@@ -151,12 +151,14 @@ public class Login extends Application
                     newPatient.start(window);
                 }
                 else if(role.equals("d")){
-                    System.out.println("The login was successful as a doctor");
-                    // **** Note to Derrick *** you're going to need to pass in the doctor username
-                    // as a parameter for creating a new DoctorView object
-                    // Idea for future sprint:
-                    // DoctorView doctor = new DoctorView();
-                    // doctor.run();
+                    // Create and set the doctor
+                    DoctorAppointmentView newDoctor = new DoctorAppointmentView();
+
+                    // Get the current stage
+                    Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+
+                    // Call the start method
+                    newDoctor.start(window);
                 }
                 else if(role.equals("r")){
                     // Create and set the receptionist

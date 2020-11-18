@@ -10,12 +10,12 @@ import org.junit.Test;
  * @author  (your name)
  * @version (a version number or a date)
  */
-public class DoctorAppointmentViewTest
+public class DoctorAppointmentViewTest2
 {
     /**
      * Default constructor for test class DoctorAppointmentViewTest
      */
-    public DoctorAppointmentViewTest()
+    public DoctorAppointmentViewTest2()
     {
     }
 
@@ -45,7 +45,7 @@ public class DoctorAppointmentViewTest
     @Test
     public void testNoAppointmentsForDateFirstNameReturnsSize0(){
         int expResult = 0;
-        int result = DoctorAppointmentView.getPatientsFirstName("01/01/2000", 1).size();
+        int result = DoctorAppointmentView2.getPatientsFirstName("01/01/2000", 1).size();
         assertEquals(expResult, result);
     }
 
@@ -53,7 +53,7 @@ public class DoctorAppointmentViewTest
     @Test
     public void testAppointmentsForDateFirstNameReturnsSizeGreaterThan0(){
         boolean expResult = true;
-        boolean result = DoctorAppointmentView.getPatientsFirstName("11/16/2019", 1).size() > 0;
+        boolean result = DoctorAppointmentView2.getPatientsFirstName("11/16/2019", 1).size() > 0;
         assertEquals(expResult, result);
     }
 
@@ -61,7 +61,7 @@ public class DoctorAppointmentViewTest
     @Test
     public void testNoAppointmentsForDateLastNameReturnsSize0(){
         int expResult = 0;
-        int result = DoctorAppointmentView.getPatientsLastName("01/01/2000", 1).size();
+        int result = DoctorAppointmentView2.getPatientsLastName("01/01/2000", 1).size();
         assertEquals(expResult, result);
     }
 
@@ -69,7 +69,7 @@ public class DoctorAppointmentViewTest
     @Test
     public void testAppointmentsForDateLastNameReturnsSizeGreaterThan0(){
         boolean expResult = true;
-        boolean result = DoctorAppointmentView.getPatientsLastName("11/16/2019", 1).size() > 0;
+        boolean result = DoctorAppointmentView2.getPatientsLastName("11/16/2019", 1).size() > 0;
         assertEquals(expResult, result);
     }
 
@@ -77,7 +77,7 @@ public class DoctorAppointmentViewTest
     @Test
     public void testNoAppointmentsForDateTimesScheduledReturnsSize0(){
         int expResult = 0;
-        int result = DoctorAppointmentView.getTimesScheduled("01/01/2000", 1).size();
+        int result = DoctorAppointmentView2.getTimesScheduled("01/01/2000", 1).size();
         assertEquals(expResult, result);
     }
 
@@ -85,7 +85,7 @@ public class DoctorAppointmentViewTest
     @Test
     public void testAppointmentsForDateTimesScheduledReturnsSizeGreaterThan0(){
         boolean expResult = true;
-        boolean result = DoctorAppointmentView.getTimesScheduled("11/16/2019", 1).size() > 0;
+        boolean result = DoctorAppointmentView2.getTimesScheduled("11/16/2019", 1).size() > 0;
         assertEquals(expResult, result);
     }
     
@@ -93,7 +93,7 @@ public class DoctorAppointmentViewTest
     @Test
     public void testInvalidDoctorUsernameReturnsNegative99(){
         int expResult = -99;
-        int result = DoctorAppointmentView.getDoctorID("blahblah");
+        int result = DoctorAppointmentView2.getDoctorID("blahblah");
         assertEquals(expResult, result);
     }
     
@@ -101,7 +101,7 @@ public class DoctorAppointmentViewTest
     @Test
     public void testValidDoctorUsernameReturnsValidID(){
         int expResult = 1;
-        int result = DoctorAppointmentView.getDoctorID("DrJenn");
+        int result = DoctorAppointmentView2.getDoctorID("DrJenn");
         assertEquals(expResult, result);
     }
 }

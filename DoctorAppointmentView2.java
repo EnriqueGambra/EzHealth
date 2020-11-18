@@ -50,7 +50,7 @@ import javafx.util.Callback;
 import java.io.IOException;
 
 //This class will be for the doctor's view
-public class DoctorAppointmentView implements Initializable {    
+public class DoctorAppointmentView2 implements Initializable {    
     // Setting up the stage
     private static Stage stage;
 
@@ -80,7 +80,7 @@ public class DoctorAppointmentView implements Initializable {
      * Constructor
      * DoctorAppointmentView
      */
-    public DoctorAppointmentView()
+    public DoctorAppointmentView2()
     {
         username = Login.getUsername();
         doctorID = getDoctorID(username);

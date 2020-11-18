@@ -1,4 +1,3 @@
-
 // imports 
 import javafx.application.*;
 import javafx.stage.*;
@@ -125,18 +124,18 @@ public class ReceptionistAppointmentView implements Initializable {
 
     // option
     private String option; 
-    
+
     // timeslot size
     private final int TIME_SLOT_SIZE = 8;
-    
+
     private static final String DOC_ID_KEY = "docID";
     private static final String PAT_ID_KEY = "patID";
     private static final String TIME_SLOT_KEY = "timeSlot";
-    
+
     private List<String> timeSlots = new ArrayList<>();
-    
+
     private static String formattedDate;
-    
+
     // Date
     private LocalDate newDate;     
     /**
@@ -151,7 +150,7 @@ public class ReceptionistAppointmentView implements Initializable {
         receptionistComboBox.getSelectionModel().select("Create/Edit Appointment");
         option = "Create/Edit Appointment";
         //MySQLConnectionProperties.createConnection();
-        
+
         // Add event listener to combo box
         receptionistComboBox.valueProperty().addListener(new ChangeListener<String>() {
                 @Override public void changed(ObservableValue ov, String oldValue, String newValue) {
@@ -159,56 +158,54 @@ public class ReceptionistAppointmentView implements Initializable {
                     option = newValue;
                 }    
             });
-            
+
         submitButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override public void handle(ActionEvent e) {
-                if(option.equals("Create/Edit Appointment")){
-                    //Create/edit appointments page
-                    System.out.println("Submitting event");
-                    updateTimeslots();
-                    submitDataToDatabase();
+                @Override public void handle(ActionEvent e) {
+                    if(option.equals("Create/Edit Appointment")){
+                        //Create/edit appointments page
+                        System.out.println("Submitting event");
+                        updateTimeslots();
+                        submitDataToDatabase();
+                    }
                 }
-            }
-        });
+            });
 
         // Add event listener to datepicker
         appointmentDate.valueProperty().addListener((ov, oldValue, newValue) -> {
-            // Gets the date selected as a localdate variable 
-            newDate = newValue; 
-            
-            String[] dateArray = newDate.toString().split("-");
-            
-            String year = dateArray[0];
-            String month = dateArray[1];
-            String day = dateArray[2];
-            
-            formattedDate = month + "/" + day + "/" + year;
-            ArrayList appointmentDataList = retrieveAppointmentInfo(formattedDate);
-        
-            //Start initialization to display our appointment info
-            initDisplayAppointmentInfo(appointmentDataList);
-        });
-        
+                // Gets the date selected as a localdate variable 
+                newDate = newValue; 
+
+                String[] dateArray = newDate.toString().split("-");
+
+                String year = dateArray[0];
+                String month = dateArray[1];
+                String day = dateArray[2];
+
+                formattedDate = month + "/" + day + "/" + year;
+                ArrayList appointmentDataList = retrieveAppointmentInfo(formattedDate);
+
+                //Start initialization to display our appointment info
+                initDisplayAppointmentInfo(appointmentDataList);
+            });
+
         String timeSlotsFinal[] = new String[] {"9-10", "10-11", "11-12", "12-1", "1-2", "2-3", "3-4", "4-5"};
         timeSlots = Arrays.asList(timeSlotsFinal);
         // set table up 
         timeColumn.setCellValueFactory(new PropertyValueFactory<CreateAppointment, String>("timeSlot"));
-            
-        
+
         patientIDColumn.setCellValueFactory(new PropertyValueFactory<CreateAppointment, String>("patientID"));
-            
         patientNameColumn.setCellValueFactory(new PropertyValueFactory<CreateAppointment, String>("patientName"));
         doctorColumn.setCellValueFactory(new PropertyValueFactory<CreateAppointment, String>("doctor"));
-        
+
         patientIDColumn.setCellFactory(TextFieldTableCell.<CreateAppointment, String>forTableColumn(new DefaultStringConverter()));
         patientIDColumn.setOnEditCommit(t -> t.getRowValue().setPatientID(t.getNewValue()));
-        
+
         patientNameColumn.setCellFactory(TextFieldTableCell.<CreateAppointment, String>forTableColumn(new DefaultStringConverter()));
         patientNameColumn.setOnEditCommit(t -> t.getRowValue().setPatientName(t.getNewValue()));
-        
+
         doctorColumn.setCellFactory(TextFieldTableCell.<CreateAppointment, String>forTableColumn(new DefaultStringConverter()));
         doctorColumn.setOnEditCommit(t -> t.getRowValue().setDoctorName(t.getNewValue()));
-        
+
         // appointmentTableView.setItems(data);
         // for(Appointment a: data)
         // {
@@ -254,63 +251,82 @@ public class ReceptionistAppointmentView implements Initializable {
         System.out.println("Attempting to submit event event");
         try{
             if(option.equals("Create/Edit Appointment")){
-            //Create/edit appointments page
-            System.out.println("Submitting event");
-            updateTimeslots();
-            submitDataToDatabase();
-            // newAppointment.run();
+                //Create/edit appointments page
+                System.out.println("Submitting event");
+                updateTimeslots();
+                submitDataToDatabase();
+                // newAppointment.run();
             }
         }
         catch(Exception ex){
             System.out.println("Error");
             System.out.println(ex.getMessage());
         }
-     
-    // else if(optionSelected.equals(menuOption.getItem(1))){
-    // //Lookup patient's id
-    // PatientIDLookup patientID = new PatientIDLookup();
-    // patientID.run();
-    // }
     }
 
-        public void submitDataToDatabase(){
-        //Connection connection = null;
-        //Statement statement = null;
-        
+    public void submitDataToDatabase(){
         try{
+            // int for incomplete appointments 
+            int incomplete = 0;
             String timeSlot = null;
-            
-           //connection=DriverManager.getConnection(DB_URL,DB_USER,DB_PASSWD);
-           //statement=connection.createStatement();
 
-           //loop through the various fields to update the values to the DB
-           for(int i = 0; i < TIME_SLOT_SIZE; i++){
-               //timeSlot = timeSlots.get(i);
-               //String patientID = textFieldPatientID.get(i).getText();
-               //String doctorName = textFieldDoctors.get(i).getText();
-               
-               timeSlot = String.valueOf(appointmentTable.getColumns().get(0).getCellObservableValue(i).getValue());
-               String patientID = String.valueOf(appointmentTable.getColumns().get(1).getCellObservableValue(i).getValue());
-               String doctorName = String.valueOf(appointmentTable.getColumns().get(3).getCellObservableValue(i).getValue());
-               //patientID of 5 is the generic 'null' patient. In the database
-               //I designed it so whenever we look up a new date (let's say for
-               //instance we never looked up the date 12/21/2012) we'll create
-               //a bunch of empty record appointment timeslots within the database
-               //so we know we have looked at it... setting these slots to patient
-               //ID of 5 (sort of a dummy way of saying there is a patient there but
-               //in reality there isn't...) kinda stoopid
-               if(patientID.equals("")){
-                   patientID = String.valueOf(MySQLConnectionProperties.getNullUserID());
-                   doctorName = "";
-               }
+            //loop through the various fields to update the values to the DB
+            for(int i = 0; i < TIME_SLOT_SIZE; i++){               
+                timeSlot = String.valueOf(appointmentTable.getColumns().get(0).getCellObservableValue(i).getValue());
+                String patientID = String.valueOf(appointmentTable.getColumns().get(1).getCellObservableValue(i).getValue());
+                String doctorName = String.valueOf(appointmentTable.getColumns().get(3).getCellObservableValue(i).getValue());
+
+                // if at least one field has information therefore an appointment was attempted to be made
+                // in that case scenario we check if all fields have input
+                if(((!patientID.isEmpty() || !doctorName.isEmpty())) && ((patientID.isEmpty() || doctorName.isEmpty())))
+                {
+                    // there was an incomplete appointment 
+                    incomplete++;
+                }
+                else // appointment was empty or valid
+                {
+                    //patientID of 5 is the generic 'null' patient. In the database
+                //I designed it so whenever we look up a new date (let's say for
+                //instance we never looked up the date 12/21/2012) we'll create
+                //a bunch of empty record appointment timeslots within the database
+                //so we know we have looked at it... setting these slots to patient
+                //ID of 5 (sort of a dummy way of saying there is a patient there but
+                //in reality there isn't...) 
+                if(patientID.equals("")){
+                    patientID = String.valueOf(MySQLConnectionProperties.getNullUserID());
+                    doctorName = "";
+                }
+
+                String updateValues = "UPDATE appointment SET doctorID = (SELECT doctors.doctorID from doctors, users where users.userID = doctors.userID " +
+                    "AND users.last_name = '" + doctorName + "'), patientID = " + Integer.parseInt(patientID) + 
+                    " where date_scheduled = '" + formattedDate + "' AND time_scheduled = '" + timeSlot + "';";
+
+                MySQLConnectionProperties.getStatementObject().execute(updateValues);
+                }
+            }
             
-               String updateValues = "UPDATE appointment SET doctorID = (SELECT doctors.doctorID from doctors, users where users.userID = doctors.userID " +
-                       "AND users.last_name = '" + doctorName + "'), patientID = " + Integer.parseInt(patientID) + 
-                       " where date_scheduled = '" + formattedDate + "' AND time_scheduled = '" + timeSlot + "';";
-               
-               MySQLConnectionProperties.getStatementObject().execute(updateValues);
-           }
-        }        
+            // Print the appropriate alert, notify of errors or if it was successful
+            if(incomplete > 0)
+            {
+                Alert warnAlert = new Alert(AlertType.ERROR);
+                warnAlert.setTitle("Missing Entry Error");
+                warnAlert.setHeaderText(null); 
+                warnAlert.setContentText(incomplete + " appointments failed to update.\nEnsure to fill both Patient ID and Doctor name filed.");
+                warnAlert.showAndWait();
+                return;
+            }
+            else
+            {
+                // Success message
+                Alert confirmAlert = new Alert(AlertType.CONFIRMATION);
+                confirmAlert.setTitle("Success");
+                confirmAlert.setHeaderText(null); 
+                confirmAlert.setContentText("All appointments saved successfully!");
+                confirmAlert.showAndWait();
+                return;
+            }
+        }
+
         catch(Exception ex){
             System.out.println(ex.getMessage());
         }
@@ -324,7 +340,7 @@ public class ReceptionistAppointmentView implements Initializable {
             }
         }
     }
-    
+
     /**
      * Checks to see if ALL time slots have been created for a specific date.
      * If some time slots haven't been created, inserts these time slots into
@@ -336,37 +352,37 @@ public class ReceptionistAppointmentView implements Initializable {
         //Connection connection = null;
         //Statement statement = null;
         ResultSet resultSet = null;
-        
+
         //List that will contain time slots already created for a particular
         //appointment date in the database
         ArrayList<String> timeslotsAlreadyCreated = new ArrayList<>();
-        
+
         try{
-           //connection=DriverManager.getConnection(DB_URL,DB_USER,DB_PASSWD);
-           //statement=connection.createStatement();
-           resultSet=MySQLConnectionProperties.getStatementObject().executeQuery("SELECT time_scheduled FROM appointment where date_scheduled = '" + formattedDate + "';");
-           
-           //See if there is a time_scheduled that corresponds already to an appointment there and
-           //add it to the timeslotsAlreadyCreated list
-           while(resultSet.next()){
-               String time = resultSet.getString("time_scheduled");
-               timeslotsAlreadyCreated.add(time);
-           }
-           
-           resultSet.close();
-           
-           // loop through the timeSlots list and compare to see what time slots
-           // are missing between the timeslotsAlreadyCreated list. If time slots
-           // are missing, we need to create an "empty" record for the appointment
-           // to ensure if we do add a user to that particular time slot in the
-           // future it's already created
-            
+            //connection=DriverManager.getConnection(DB_URL,DB_USER,DB_PASSWD);
+            //statement=connection.createStatement();
+            resultSet=MySQLConnectionProperties.getStatementObject().executeQuery("SELECT time_scheduled FROM appointment where date_scheduled = '" + formattedDate + "';");
+
+            //See if there is a time_scheduled that corresponds already to an appointment there and
+            //add it to the timeslotsAlreadyCreated list
+            while(resultSet.next()){
+                String time = resultSet.getString("time_scheduled");
+                timeslotsAlreadyCreated.add(time);
+            }
+
+            resultSet.close();
+
+            // loop through the timeSlots list and compare to see what time slots
+            // are missing between the timeslotsAlreadyCreated list. If time slots
+            // are missing, we need to create an "empty" record for the appointment
+            // to ensure if we do add a user to that particular time slot in the
+            // future it's already created
+
             for(int i = 0; i < TIME_SLOT_SIZE; i++){
                 String timeSlot = String.valueOf(appointmentTable.getColumns().get(0).getCellObservableValue(i).getValue());
                 if(timeslotsAlreadyCreated.indexOf(timeSlot) == -1){
                     String insertNullValues = "INSERT INTO appointment (date_scheduled, time_scheduled) " +
-                             "values ('" + formattedDate + "', '" + timeSlot + "');";
-                    
+                        "values ('" + formattedDate + "', '" + timeSlot + "');";
+
                     MySQLConnectionProperties.getStatementObject().execute(insertNullValues);
                 }
             }
@@ -384,9 +400,9 @@ public class ReceptionistAppointmentView implements Initializable {
                 System.out.println(ex.getMessage());
             }
         }
-        
+
     }
-    
+
     /**
      * @pre date must be properly formatted
      * Retrieves appointment info from the database and places all data into
@@ -399,13 +415,13 @@ public class ReceptionistAppointmentView implements Initializable {
         //Connection connection = null;
         //Statement statement = null;
         ResultSet resultSet = null;
-        
+
         //List to hold all appointment data for a given day
         ArrayList<HashMap<String, String>> appointmentDataList = new ArrayList<>();
-        
+
         try{
-           //connection=DriverManager.getConnection(DB_URL,DB_USER,DB_PASSWD);
-           //statement=connection.createStatement();
+            //connection=DriverManager.getConnection(DB_URL,DB_USER,DB_PASSWD);
+            //statement=connection.createStatement();
 
             resultSet=MySQLConnectionProperties.getStatementObject().executeQuery("SELECT * FROM appointment where date_scheduled = '" + formattedDate + "';");
 
@@ -420,31 +436,31 @@ public class ReceptionistAppointmentView implements Initializable {
 
                 //Add hashmap to the arraylist holding all appointment values
                 appointmentDataList.add(appointmentData);
-              }
-            
+            }
+
             resultSet.close();    
             //MySQLConnectionProperties.getStatementObject().close();
-            
+
             return appointmentDataList;
-           }
+        }
         catch(SQLException ex)
         {
             System.out.println(ex.getMessage());
             return null;
         }
         finally{
-           try {
-              resultSet.close();
-              //MySQLConnectionProperties.getStatementObject().close();
-              //connection.close();
-           } 
-           catch (SQLException ex) {
-               System.out.println(ex.getMessage());
-               return null;
-           }
+            try {
+                resultSet.close();
+                //MySQLConnectionProperties.getStatementObject().close();
+                //connection.close();
+            } 
+            catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+                return null;
+            }
         }
     }
-    
+
     /**
      * @param appointmentDataList - ArrayList containing a HashMap<String, String> that contains information about each separate appointment
      * @post
@@ -454,38 +470,38 @@ public class ReceptionistAppointmentView implements Initializable {
     public void initDisplayAppointmentInfo(ArrayList<HashMap<String, String>> appointmentDataList){
         ArrayList<CreateAppointment> appointmentList = new ArrayList<>();
         try{
-            
+
             if(appointmentDataList.size() > 0){
                 for(HashMap<String,String> appointmentData: appointmentDataList){
-                String patientFieldID = null;
+                    String patientFieldID = null;
 
-                //Get the time slot index (will be used as the index for each 
-                int index = timeSlots.indexOf(appointmentData.get(TIME_SLOT_KEY));
-                int patientID = Integer.parseInt(appointmentData.get(PAT_ID_KEY));
-                int doctorID = Integer.parseInt(appointmentData.get(DOC_ID_KEY));
+                    //Get the time slot index (will be used as the index for each 
+                    int index = timeSlots.indexOf(appointmentData.get(TIME_SLOT_KEY));
+                    int patientID = Integer.parseInt(appointmentData.get(PAT_ID_KEY));
+                    int doctorID = Integer.parseInt(appointmentData.get(DOC_ID_KEY));
 
-                String doctorName = retrieveDoctorName(doctorID);
-                String patientFirstName = retrievePatientFirstName(patientID);
-                String patientLastName = retrievePatientLastName(patientID);
-                
-                String timeSlotAppointment = appointmentData.get(TIME_SLOT_KEY);
+                    String doctorName = retrieveDoctorName(doctorID);
+                    String patientFirstName = retrievePatientFirstName(patientID);
+                    String patientLastName = retrievePatientLastName(patientID);
 
-                //If the patientID equals the nullUserID that means we don't want
-                //to display a patient ID of 5, but rather make it an empty String
-                if(patientID == MySQLConnectionProperties.getNullUserID()){
-                    //textFieldPatientID.get(index).setText("");
-                    patientFieldID = "";
-                }
-                else{
-                    //textFieldPatientID.get(index).setText(Integer.toString(patientID));
-                    patientFieldID = Integer.toString(patientID);
-                }
-                
-                CreateAppointment newAppointment = new CreateAppointment(timeSlotAppointment, patientFieldID, patientFirstName + " " + patientLastName, 
-                    doctorName); 
-                    
-                //appointmentTable.setItems(newAppointment);
-                appointmentList.add(newAppointment);
+                    String timeSlotAppointment = appointmentData.get(TIME_SLOT_KEY);
+
+                    //If the patientID equals the nullUserID that means we don't want
+                    //to display a patient ID of 5, but rather make it an empty String
+                    if(patientID == MySQLConnectionProperties.getNullUserID()){
+                        //textFieldPatientID.get(index).setText("");
+                        patientFieldID = "";
+                    }
+                    else{
+                        //textFieldPatientID.get(index).setText(Integer.toString(patientID));
+                        patientFieldID = Integer.toString(patientID);
+                    }
+
+                    CreateAppointment newAppointment = new CreateAppointment(timeSlotAppointment, patientFieldID, patientFirstName + " " + patientLastName, 
+                            doctorName); 
+
+                    //appointmentTable.setItems(newAppointment);
+                    appointmentList.add(newAppointment);
                 }
             }
             else {
@@ -493,9 +509,9 @@ public class ReceptionistAppointmentView implements Initializable {
                     CreateAppointment newAppointment = new CreateAppointment(timeSlots.get(i), "", "", "");
                     appointmentList.add(newAppointment);
                 }
-                
+
             }
-            
+
             ObservableList<CreateAppointment> data = FXCollections.observableArrayList(appointmentList);
             appointmentTable.setItems(data);
         }
@@ -503,17 +519,17 @@ public class ReceptionistAppointmentView implements Initializable {
             System.out.println(ex.getMessage());
         }
     }
-    
+
     /**
      * Displays the doctor's last name on the appropriate GUI component
      * @param index - index of GUI component in list
      * @param doctorID
      */
-//    public void displayDoctorName(int index, int doctorID){
-//        String doctorName = retrieveDoctorName(doctorID);
-//        textFieldDoctors.get(index).setText(doctorName);
-//    }
-    
+    //    public void displayDoctorName(int index, int doctorID){
+    //        String doctorName = retrieveDoctorName(doctorID);
+    //        textFieldDoctors.get(index).setText(doctorName);
+    //    }
+
     /**
      * @pre doctorID within database
      * Retrieves the doctor's ID from the database and returns the doctor's last name
@@ -522,25 +538,25 @@ public class ReceptionistAppointmentView implements Initializable {
      */
     public String retrieveDoctorName(int doctorID){
         String doctorNameQuery = "SELECT users.last_name from users, doctors where "
-                 + "doctorID = " + doctorID + " and doctors.userID = users.userID";
-        
+            + "doctorID = " + doctorID + " and doctors.userID = users.userID";
+
         try{
-            
+
             //Connection connection = DriverManager.getConnection(DB_URL,DB_USER,DB_PASSWD);
             //Statement statement = connection.createStatement();
-            
+
             String doctorLastName = null;
-            
+
             ResultSet resultDoctorName = MySQLConnectionProperties.getStatementObject().executeQuery(doctorNameQuery);
 
             while(resultDoctorName.next()){
                 doctorLastName = resultDoctorName.getString("users.last_name");
             }
-            
+
             resultDoctorName.close();
             //connection.close();
             //MySQLConnectionProperties.getStatementObject().close();
-            
+
             return doctorLastName;
         }
         catch(Exception ex){
@@ -548,17 +564,17 @@ public class ReceptionistAppointmentView implements Initializable {
             return null;
         }
     }
-    
+
     /**
      * Displays the patient's first name on the appropriate GUI component.
      * @param index
      * @param patientID 
      */
-//    public void displayPatientFirstName(int index, int patientID){
-//        String patientFirstName = retrievePatientFirstName(patientID);
-//        textFieldPatients.get(index).setText(patientFirstName);
-//    }
-    
+    //    public void displayPatientFirstName(int index, int patientID){
+    //        String patientFirstName = retrievePatientFirstName(patientID);
+    //        textFieldPatients.get(index).setText(patientFirstName);
+    //    }
+
     /**
      * @pre patientID within database
      * Retrieves the patientID from the database and returns the patient's first name
@@ -567,25 +583,25 @@ public class ReceptionistAppointmentView implements Initializable {
      */
     public String retrievePatientFirstName(int patientID){
         String patientFirstNameQuery = "SELECT users.first_name "
-                 + "from users, patients where patients.patientID = " + patientID + " and "
-                 + "patients.userID = users.userID";
-        
+            + "from users, patients where patients.patientID = " + patientID + " and "
+            + "patients.userID = users.userID";
+
         try{
-            
+
             //Connection connection = DriverManager.getConnection(DB_URL,DB_USER,DB_PASSWD);
             //Statement statement = connection.createStatement();
-            
+
             String patientFirstName = null;
             ResultSet resultPatientFirstName = MySQLConnectionProperties.getStatementObject().executeQuery(patientFirstNameQuery);
 
             while(resultPatientFirstName.next()){
-               patientFirstName = resultPatientFirstName.getString("users.first_name");
+                patientFirstName = resultPatientFirstName.getString("users.first_name");
             }
-            
+
             resultPatientFirstName.close();
             //connection.close();
             //MySQLConnectionProperties.getStatementObject().close();
-            
+
             return patientFirstName;
         }
         catch(Exception ex){
@@ -593,18 +609,18 @@ public class ReceptionistAppointmentView implements Initializable {
             return null;
         }
     }
-    
+
     /**
      * Displays the patient's last name on the appropriate GUI component.
      * @param index
      * @param patientID 
      */
-//    public void displayPatientLastName(int index, int patientID){
-//        String patientLastName = retrievePatientLastName(patientID);
-//        String priorText = textFieldPatients.get(index).getText();
-//        textFieldPatients.get(index).setText(priorText + " " + patientLastName);
-//    }
-    
+    //    public void displayPatientLastName(int index, int patientID){
+    //        String patientLastName = retrievePatientLastName(patientID);
+    //        String priorText = textFieldPatients.get(index).getText();
+    //        textFieldPatients.get(index).setText(priorText + " " + patientLastName);
+    //    }
+
     /**
      * @pre patientID within database
      * Retrieves the patientID from the database and returns the patient's last name
@@ -613,14 +629,14 @@ public class ReceptionistAppointmentView implements Initializable {
      */
     public String retrievePatientLastName(int patientID){
         String patientLastNameQuery = "SELECT users.last_name "
-                 + "from users, patients where patients.patientID = " + patientID + " and "
-                 + "patients.userID = users.userID";
-        
+            + "from users, patients where patients.patientID = " + patientID + " and "
+            + "patients.userID = users.userID";
+
         try{
-            
+
             // Connection connection = DriverManager.getConnection(DB_URL,DB_USER,DB_PASSWD);
             // Statement statement = connection.createStatement();
-            
+
             String patientLastName = null;
             // ResultSet resultPatientLastName = MySQLConnectionProperties.getStatementObject().executeQuery(patientLastNameQuery);
             ResultSet resultPatientLastName = MySQLConnectionProperties.getStatementObject().executeQuery(patientLastNameQuery);
@@ -628,11 +644,11 @@ public class ReceptionistAppointmentView implements Initializable {
             while(resultPatientLastName.next()){
                 patientLastName = resultPatientLastName.getString("users.last_name");
             }
-            
+
             resultPatientLastName.close();
             //connection.close();
             //MySQLConnectionProperties.getStatementObject().close();
-            
+
             return patientLastName;
         }
         catch(Exception ex){
@@ -640,8 +656,7 @@ public class ReceptionistAppointmentView implements Initializable {
             return null;
         }
     }
-    
-    
+
     /**
      * Used to hold information for the edit/create appointment table
      **/
@@ -699,15 +714,15 @@ public class ReceptionistAppointmentView implements Initializable {
         {
             return doctor; 
         } // end getDoctor
-        
+
         public void setPatientID(String newPatientID){
             this.patientID = newPatientID;
         }
-        
+
         public void setPatientName(String name){
             this.patientName = name;
         }
-        
+
         public void setDoctorName(String name){
             this.doctor = name;
         }
