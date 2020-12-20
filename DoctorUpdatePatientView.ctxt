@@ -30,5 +30,5 @@ comment8.target=void\ getPatientInfo()
 comment8.text=\r\n\ Displays\ patient\ info\ onto\ the\ GUI\r\n
 comment9.params=patientID\ query\ dbColumnName
 comment9.target=java.lang.String\ retrieveResultsFromDatabase(int,\ java.lang.String,\ java.lang.String)
-comment9.text=\r\n\ @pre\r\n\ @param\ id\ -\ patientID\r\n\ @param\ query\r\n\ @param\ dbColumnName\ -\ name\ of\ the\ column\ located\ in\ the\ database\r\n\ @return\ null\ (indicating\ could\ not\ find\ result\ or\ error)\ or\ a\ String\r\n\ @post\r\n
+comment9.text=\r\n\ @pre\ must\ have\ a\ valid\ appointment\ and\ valid\ queries\r\n\ @param\ id\ -\ patientID\r\n\ @param\ query\r\n\ @param\ dbColumnName\ -\ name\ of\ the\ column\ located\ in\ the\ database\r\n\ @return\ null\ (indicating\ could\ not\ find\ result\ or\ error)\ or\ a\ String\r\n\ @post\ retrieves\ results\ from\ the\ database\ to\ be\ populated\ in\ the\ resulting\ textfield\r\n
 numComments=13

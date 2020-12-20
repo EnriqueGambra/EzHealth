@@ -204,12 +204,12 @@ public class Login extends Application
 
     /**
      * @pre The parameters passed in must be Strings and must be a valid username
-    and password combo already in the database
+     * and password combo already in the database
      * @param username
      * @param password 
-     * @post Database has checked the user's role
      * @return "p" if the user is a patient, "d" if doctor, "r" if receptionist,
-    "" if no role
+     * "" if no role
+     * @post Retrieves the role for a particular user
      **/
     public String getRole(String username, String password){
         //Returns the user's role
@@ -247,8 +247,8 @@ public class Login extends Application
      * @pre The parameters passed in must be Strings
      * @param username
      * @param password 
-     * @post Database has checked whether the user is in the database
      * @return True or False depending on if user is in the database
+     * @post the user is validated as a user with the appropriate username and password combo
      **/
     public boolean checkUserAndPassword(String username, String password){
         //Checks to see if the user is within the database by accessing the database

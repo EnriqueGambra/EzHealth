@@ -33,7 +33,7 @@
             <Font size="15.0" />
          </font>
       </Button>
-      <TableView fx:id="appointmentTable" editable="true" layoutX="311.0" layoutY="381.0" prefHeight="344.0" prefWidth="670.0">
+      <TableView fx:id="appointmentTable" editable="true" layoutX="305.0" layoutY="371.0" prefHeight="344.0" prefWidth="670.0">
         <columns>
           <TableColumn fx:id="timeColumn" editable="false" prefWidth="335.0" text="Time Slot" />
             <TableColumn fx:id="patientNameColumn" editable="true" prefWidth="335.0" text="Patient" />
@@ -51,5 +51,10 @@
             <Font size="25.0" />
          </font>
       </Label>
+      <Button fx:id="editButton" layoutX="593.0" layoutY="727.0" mnemonicParsing="false" onAction="#editAction" prefHeight="30.0" prefWidth="94.0" style="-fx-background-color: #2dbfff;" text="Edit" textFill="WHITE">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

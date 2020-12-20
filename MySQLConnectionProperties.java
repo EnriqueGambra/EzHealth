@@ -9,7 +9,7 @@ public class MySQLConnectionProperties {
    private static final String DB_DRV = "com.mysql.jdbc.Driver";
    private static final String DB_USER = "sql9367549";
    private static final String DB_PASSWD = "SWGzWGWjnt";
-   private static final int nullUserID = 5;
+   private static final int NULL_USER_ID = 5;
    private static Statement statement = null;
    private static Connection connection = null;
    
@@ -57,7 +57,7 @@ public class MySQLConnectionProperties {
    }
    
    public static int getNullUserID(){
-       return nullUserID;
+       return NULL_USER_ID;
    }
    
    public static Statement getStatementObject(){

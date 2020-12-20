@@ -149,11 +149,11 @@ public class PatientAppointmentView implements Initializable
     } // end initialize
 
     /**
-     * @pre
+     * @pre must have a valid username and valid attribute column being first_name or last_name
      * @param sqlName - attribute column to retrieve from the database (either first_name or last_name)
      * @param username - patient ID's username
      * @return "" if database could not find the user's name, or a string of the actual user's name
-     * @post 
+     * @post retreives the name (first name or last name)
      */
     public static String retrieveName(String sqlName, String username){
 
@@ -198,7 +198,7 @@ public class PatientAppointmentView implements Initializable
      * @param firstName - patient's first name
      * @param lastName - patient's last name
      * @return -999 if patientID could not be found or patient ID < 0 if found
-     * @post 
+     * @post retrieves the ID of a patient
      */
     public static int retrieveID(String firstName, String lastName){
         //Connection connection = null;
@@ -266,7 +266,7 @@ public class PatientAppointmentView implements Initializable
     } // end loadData
 
     /**
-     * @pre
+     * @pre must have valid appointment date
      * @param appointmentMap - HashMap containing a list of appointments to display
      * @post GUI displays the appropriate appointments
      */
@@ -288,7 +288,7 @@ public class PatientAppointmentView implements Initializable
      * @pre - patient must have appointments saved in database in order to successfully fill hashmap with appropriate data
      * @param patID - patient's ID
      * @return HashMap<String, List<String>> that contains a mapping of the appointments, if empty hashmap returns null
-     * @post
+     * @post retrieves the list of appointments for a specific patientID
      */
     public static HashMap<String, List<String>> retrieveAppointments(int patID){
         //Connection connection = null;

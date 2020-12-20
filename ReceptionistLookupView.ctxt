@@ -15,11 +15,11 @@ comment5.target=void\ submit(javafx.event.ActionEvent)
 comment5.text=\r\n\ submit\r\n\ Checks\ user\ input\ and\ creates\ a\ new\ user\ in\ the\ database\r\n\ If\ information\ is\ missing\ or\ invalid\ an\ appropriate\ error\ will\ be\ displayed\r\n
 comment6.params=firstName\ lastName\ birthday
 comment6.target=int\ retrievePatientID(java.lang.String,\ java.lang.String,\ java.lang.String)
-comment6.text=\r\n\ @pre\ must\ have\ valid\ patient\ ID\ in\ database\ set\ up\ with\ proper\ name\ and\ birthday\ passed\ in\ as\ parameters\r\n\ @param\ firstName\ -\ patient's\ first\ name\r\n\ @param\ lastName\ -\ patient's\ last\ name\r\n\ @param\ birthday\ -\ patient's\ birthday\r\n\ @return\ -1\ if\ DB\ can't\ find\ patient,\ 1\ <\=\ x\ if\ patient\ Id\ is\ found\r\n
+comment6.text=\r\n\ @pre\ must\ have\ valid\ patient\ ID\ in\ database\ set\ up\ with\ proper\ name\ and\ birthday\ passed\ in\ as\ parameters\r\n\ @param\ firstName\ -\ patient's\ first\ name\r\n\ @param\ lastName\ -\ patient's\ last\ name\r\n\ @param\ birthday\ -\ patient's\ birthday\r\n\ @return\ -1\ if\ DB\ can't\ find\ patient,\ 1\ <\=\ x\ if\ patient\ Id\ is\ found\r\n\ @post\ retrieves\ and\ returns\ the\ valid\ patientID\r\n
 comment7.params=event
 comment7.target=void\ signIn(javafx.event.ActionEvent)
 comment7.text=\r\n\ signIn\r\n\ Returns\ the\ user\ to\ the\ sign-in\ screen\r\n
 comment8.params=firstName\ lastName\ birthday
 comment8.target=boolean\ hasEmptyField(java.lang.String,\ java.lang.String,\ java.time.LocalDate)
-comment8.text=\r\n\ @pre\ String\ values\ passed\ in,\ must\ not\ contain\ an\ empty\ field\ for\ any\ of\ the\ parameters\ passed\ in\r\n\ @param\ firstName\ (String)\ -\ new\ user's\ first\ name\r\n\ @param\ lastName\ (String)\ -\ new\ user's\ last\ name\r\n\ @param\ birthday\ (LocalDate)\ -\ new\ user's\ birthday\r\n\ @return\ True\ if\ there\ is\ an\ empty\ field\ (empty\ string)\ false\ if\ all\ fields\ have\ been\ filled\r\n
+comment8.text=\r\n\ @pre\ String\ values\ passed\ in,\ must\ not\ contain\ an\ empty\ field\ for\ any\ of\ the\ parameters\ passed\ in\r\n\ @param\ firstName\ (String)\ -\ new\ user's\ first\ name\r\n\ @param\ lastName\ (String)\ -\ new\ user's\ last\ name\r\n\ @param\ birthday\ (LocalDate)\ -\ new\ user's\ birthday\r\n\ @return\ True\ if\ there\ is\ an\ empty\ field\ (empty\ string)\ false\ if\ all\ fields\ have\ been\ filled\r\n\ @post\ validates\ whether\ there\ is\ an\ empty\ field\r\n
 numComments=9

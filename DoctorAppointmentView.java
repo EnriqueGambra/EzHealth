@@ -17,6 +17,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.scene.control.TableView.TableViewSelectionModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,6 +58,13 @@ public class DoctorAppointmentView implements Initializable {
     // Doctors username
     private String username;
     public static int doctorID;
+
+    // Date
+    private static String formattedDate;
+    private LocalDate newDate;  
+
+    // Currently selected appointment timeslot and patient name
+    private static String selectedTimeslot, selectedPatient;
 
     private static final String DB_URL = MySQLConnectionProperties.getDBUrl();
     private static final String DB_DRV = MySQLConnectionProperties.getDBDriver();
@@ -115,6 +123,9 @@ public class DoctorAppointmentView implements Initializable {
     @FXML
     private Button signOutButton;
 
+    @FXML
+    private Button editButton;
+
     // Table
     @FXML
     private TableView<DoctorAppointment> appointmentTable;
@@ -143,10 +154,6 @@ public class DoctorAppointmentView implements Initializable {
 
     private List<String> timeSlots = new ArrayList<>();
 
-    private static String formattedDate;
-
-    // Date
-    private LocalDate newDate;     
     /**
      * Initializes the controller class for SceneBuilder
      */
@@ -161,11 +168,14 @@ public class DoctorAppointmentView implements Initializable {
         doctorComboBox.getSelectionModel().select("View All Appointments");
         option = "View All Appointments";
         //MySQLConnectionProperties.createConnection();
-        
+
+        // set button up 
+        editButton.setDisable(true);
+
         // set table up 
         patientNameColumn.setCellValueFactory(new PropertyValueFactory<DoctorAppointment, String>("patientName"));
         timeColumn.setCellValueFactory(new PropertyValueFactory<DoctorAppointment, String>("timeSlot"));
-        
+
         // Add event listener to combo box
         doctorComboBox.valueProperty().addListener(new ChangeListener<String>() {
                 @Override public void changed(ObservableValue ov, String oldValue, String newValue) {
@@ -187,18 +197,19 @@ public class DoctorAppointmentView implements Initializable {
                 String day = dateArray[2];
 
                 formattedDate = month + "/" + day + "/" + year;
-                
-                System.out.println("LISTENER LISTENING, the date is: " + formattedDate);
-                
-                loadData(formattedDate);
-                
-                
-                //ArrayList appointmentDataList = retrieveAppointmentInfo(formattedDate);
 
+                System.out.println("LISTENER LISTENING, the date is: " + formattedDate);
+
+                loadData(formattedDate);
+
+                // disable edit until user selects a new date
+                editButton.setDisable(true);
+
+                //ArrayList appointmentDataList = retrieveAppointmentInfo(formattedDate);
                 //Start initialization to display our appointment info
                 //initDisplayAppointmentInfo(appointmentDataList);
                 System.out.println("Data list size is: " + data.size());
-                
+
                 if(data.size() != 0){
                     appointmentTable.setItems(data); 
                 } 
@@ -207,62 +218,97 @@ public class DoctorAppointmentView implements Initializable {
                     System.out.println("Appointment list is size 0");
                 }
             });
-        } // end initialize
-    
+
+        // Row selection
+        appointmentTable.getSelectionModel().setCellSelectionEnabled(false);
+        // Listener view for table 
+        appointmentTable.getFocusModel().focusedCellProperty().addListener(new ChangeListener<TablePosition>() {
+                @Override
+                public void changed(ObservableValue<? extends TablePosition> arg0, TablePosition arg1, TablePosition arg2) {
+                    // edit button accessible
+                    editButton.setDisable(false);
+                    
+                    // get the appointment
+                    DoctorAppointment da = appointmentTable.getItems().get(arg2.getRow());
+
+                    // set the patient name and time slot of the currently selected appointment
+                    selectedPatient = (String) patientNameColumn.getCellObservableValue(da).getValue();
+                    selectedTimeslot = (String) timeColumn.getCellObservableValue(da).getValue();
+                }
+            });
+    } // end initialize
+
     /**
-    * @pre
-    * @param date
-    * @param doctorID
-    * @return - an ArrayList containing strings of patients first names that have scheduled appointments, or null if exception occurs
-    */
-   public static ArrayList<String> getPatientsFirstName(String date, int doctorID){
-       
-       ArrayList<String> patientFNArray = new ArrayList<>();
-       ResultSet patientFNameResults = null;
-       try{
-           String patientFNQuery = "select users.first_name from users, appointment, patients where "
-                   + "users.userID = patients.userID AND patients.patientID = appointment.patientID " +
-                "AND appointment.date_scheduled = '" + date + "' AND appointment.doctorID = " + doctorID + ";";
-                
-           patientFNameResults = MySQLConnectionProperties.getStatementObject().executeQuery(patientFNQuery);
-           
-           while(patientFNameResults.next()){
-               patientFNArray.add(patientFNameResults.getString("users.first_name"));
-           }
-           
-           patientFNameResults.close();
-           return patientFNArray;
-       }
-       catch(Exception ex){
-           System.out.println(ex.getMessage());
-           return null;
-       }
-    }
-    
+     * editAction
+     * Takes the doctor to the edit appointment screen of the currently selected appointment
+     */
+    @FXML
+    private void editAction(ActionEvent event) throws Exception
+    {
+        // Get the current stage
+        Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+
+        // Create an edit appointment view
+        DoctorEditAppointmentView editAppointment = new DoctorEditAppointmentView();
+        editAppointment.start(window);
+    } // end editAction
+
     /**
-    * @pre
-    * @param date
-    * @param doctorID
-    * @return - an ArrayList containing strings of patients last names that have scheduled appointments, or null if exception occurs
-    */
-    public static ArrayList<String> getPatientsLastName(String date, int doctorID){
-        
-        ArrayList<String> patientLNArray = new ArrayList<>();
-        
-        ResultSet patientLNameResults = null;
-        
-        String patientLNQuery = "select users.last_name from users, appointment, patients where "
-                   + "users.userID = patients.userID AND patients.patientID = appointment.patientID " +
-                "AND appointment.date_scheduled = '" + date + "' AND appointment.doctorID = " + doctorID + ";";
-        
+     * @pre must have a properly formatted date and doctorID
+     * @param date
+     * @param doctorID
+     * @return - an ArrayList containing strings of patients first names that have scheduled appointments, or null if exception occurs
+     * @post retrieves the patient's first name
+     */
+    public static ArrayList<String> getPatientsFirstName(String date, int doctorID){
+
+        ArrayList<String> patientFNArray = new ArrayList<>();
+        ResultSet patientFNameResults = null;
         try{
-            
+            String patientFNQuery = "select users.first_name from users, appointment, patients where "
+                + "users.userID = patients.userID AND patients.patientID = appointment.patientID " +
+                "AND appointment.date_scheduled = '" + date + "' AND appointment.doctorID = " + doctorID + ";";
+
+            patientFNameResults = MySQLConnectionProperties.getStatementObject().executeQuery(patientFNQuery);
+
+            while(patientFNameResults.next()){
+                patientFNArray.add(patientFNameResults.getString("users.first_name"));
+            }
+
+            patientFNameResults.close();
+            return patientFNArray;
+        }
+        catch(Exception ex){
+            System.out.println(ex.getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * @pre must have a properly formatted date and doctorID
+     * @param date
+     * @param doctorID
+     * @return - an ArrayList containing strings of patients last names that have scheduled appointments, or null if exception occurs
+     * @post retrieves the patient's last name
+     */
+    public static ArrayList<String> getPatientsLastName(String date, int doctorID){
+
+        ArrayList<String> patientLNArray = new ArrayList<>();
+
+        ResultSet patientLNameResults = null;
+
+        String patientLNQuery = "select users.last_name from users, appointment, patients where "
+            + "users.userID = patients.userID AND patients.patientID = appointment.patientID " +
+            "AND appointment.date_scheduled = '" + date + "' AND appointment.doctorID = " + doctorID + ";";
+
+        try{
+
             patientLNameResults = MySQLConnectionProperties.getStatementObject().executeQuery(patientLNQuery);
-            
+
             while(patientLNameResults.next()){
                 patientLNArray.add(patientLNameResults.getString("users.last_name"));
             }
-            
+
             patientLNameResults.close();
             return patientLNArray;
         }
@@ -271,27 +317,28 @@ public class DoctorAppointmentView implements Initializable {
             return null;
         }
     } 
-    
+
     /**
-    * @pre
-    * @param date
-    * @param doctorID
-    * @return - an ArrayList containing strings of times scheduled for appointments, or null if exception occurs
-    */
+     * @pre must have a properly formatted date and doctorID
+     * @param date
+     * @param doctorID
+     * @return - an ArrayList containing strings of times scheduled for appointments, or null if exception occurs
+     * @post retrieves a list of times scheduled for a particular appointment date
+     */
     public static ArrayList<String> getTimesScheduled(String date, int doctorID){
-        
+
         ArrayList<String> timeSchArray = new ArrayList<>();
-        
+
         String timeScheduleQuery = "select DISTINCT(appointment.time_scheduled) from appointment, patients " +
-                "where appointment.patientID != 5 AND appointment.date_scheduled = '" + date + "' AND appointment.doctorID = " + doctorID + ";";
-        
+            "where appointment.patientID != 5 AND appointment.date_scheduled = '" + date + "' AND appointment.doctorID = " + doctorID + ";";
+
         try{
             ResultSet timeScheduledResults = MySQLConnectionProperties.getStatementObject().executeQuery(timeScheduleQuery);
 
             while(timeScheduledResults.next()){
                 timeSchArray.add(timeScheduledResults.getString("appointment.time_scheduled"));
             }
-                
+
             timeScheduledResults.close();
             return timeSchArray;
         }
@@ -299,28 +346,28 @@ public class DoctorAppointmentView implements Initializable {
             System.out.println(ex.getMessage());
             return null;
         }
-        
+
     }
-   
-   /**
-    * Load data from the database and populate the GUI
-    */
-   public void loadData(String formattedDate){
-       
-       ArrayList<String> patientFNArray = new ArrayList<>();
-       ArrayList<String> patientLNArray = new ArrayList<>();
-       ArrayList<String> timeSchArray = new ArrayList<>();
-       
-       try{
-           patientFNArray = getPatientsFirstName(formattedDate, doctorID);
-           
-           System.out.println("patientFNArray size is: " + patientFNArray.size()); 
-           if(patientFNArray != null && !patientFNArray.isEmpty()){
-               
+
+    /**
+     * Load data from the database and populate the GUI
+     */
+    public void loadData(String formattedDate){
+
+        ArrayList<String> patientFNArray = new ArrayList<>();
+        ArrayList<String> patientLNArray = new ArrayList<>();
+        ArrayList<String> timeSchArray = new ArrayList<>();
+
+        try{
+            patientFNArray = getPatientsFirstName(formattedDate, doctorID);
+
+            System.out.println("patientFNArray size is: " + patientFNArray.size()); 
+            if(patientFNArray != null && !patientFNArray.isEmpty()){
+
                 patientLNArray = getPatientsLastName(formattedDate, doctorID);
-                
+
                 timeSchArray = getTimesScheduled(formattedDate, doctorID);
-                
+
                 for(int i = 0; i < timeSchArray.size(); i++){
                     String patientFullName = patientFNArray.get(i) + " " + patientLNArray.get(i);
                     System.out.println("Patient full name is: " + patientFullName);
@@ -328,28 +375,28 @@ public class DoctorAppointmentView implements Initializable {
                     DoctorAppointment appointment = new DoctorAppointment(timeSchArray.get(i), patientFullName);
                     data.add(appointment);
                 }
-           }
-           else{
-               // frame.setVisible(false);
-               // frame.dispose();
-               // JOptionPane.showMessageDialog(null, "No appointments have been created for " + date + " yet!");
-           }   
-       }
-       catch(Exception e){
-           System.out.println(e.getMessage());
-       }
-   }
-   
-       /**
-     * @pre
+            }
+            else{
+                // frame.setVisible(false);
+                // frame.dispose();
+                // JOptionPane.showMessageDialog(null, "No appointments have been created for " + date + " yet!");
+            }   
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    /**
+     * @pre must be logged into the system with an appropriate username
      * @param username
      * @return -99 = invalid doctor ID or (1 <= x <= infinity) signifying valid doctor ID
-     * @post
+     * @post retrieves the doctor ID
      */
     public static int getDoctorID(String username){
         try{
             ResultSet retrieveDoctorID = MySQLConnectionProperties.getStatementObject().executeQuery("SELECT doctors.doctorID FROM doctors, users WHERE users.username = '" + username 
-               + "' AND users.userID = doctors.userID");
+                    + "' AND users.userID = doctors.userID");
             while(retrieveDoctorID.next()){
                 int doctorID = retrieveDoctorID.getInt("doctorID");
                 return doctorID;
@@ -361,7 +408,7 @@ public class DoctorAppointmentView implements Initializable {
             return -99;
         }
     }
-    
+
     /**
      * comboChange
      * Directs user to the appropriate page of the combo box
@@ -394,6 +441,22 @@ public class DoctorAppointmentView implements Initializable {
         Login newLogin = new Login();
         newLogin.start(window);
     } // end signIn
+
+    // get methods to get data in the edit appointment view 
+    public static String getFormattedDate()
+    {
+        return formattedDate;
+    } // end getFormattedDate
+
+    public static String getSelectedPatientName()
+    {
+        return selectedPatient;
+    } // end getSelectedPatientName
+
+    public static String getSelectedTimeslot()
+    {
+        return selectedTimeslot;
+    } // end getSelectedTimeslot
 
     /**
      * Used to hold information in appointment table
@@ -438,6 +501,6 @@ public class DoctorAppointmentView implements Initializable {
 
         public void setPatientName(String name){
             this.patientName = name;
-        }
+        } // end setPatientName         
     } // end CreateAppointment
 } // end DoctorAppointmentView

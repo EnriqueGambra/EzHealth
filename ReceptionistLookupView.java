@@ -227,6 +227,7 @@ public class ReceptionistLookupView implements Initializable {
      * @param lastName - patient's last name
      * @param birthday - patient's birthday
      * @return -1 if DB can't find patient, 1 <= x if patient Id is found
+     * @post retrieves and returns the valid patientID
      */
     public static int retrievePatientID(String firstName, String lastName, String birthday){
         //Connection connection = null;
@@ -283,6 +284,7 @@ public class ReceptionistLookupView implements Initializable {
      * @param lastName (String) - new user's last name
      * @param birthday (LocalDate) - new user's birthday
      * @return True if there is an empty field (empty string) false if all fields have been filled
+     * @post validates whether there is an empty field
      */
     public boolean hasEmptyField(String firstName, String lastName, LocalDate birthday){
         if(firstName.equals("") || lastName.equals("") || birthday == null){

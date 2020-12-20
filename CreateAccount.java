@@ -258,8 +258,8 @@ public class CreateAccount
     /**
      * @pre The parameter passed in must be a string, must not be a username already used 
      * @param username (String) new user's attempted username
-     * @post Database has checked whether the value passed in is already within the database
      * @return True or false if the database already contains the username value
+     * @post username is determine to be available (meaning no other entries in the DB with that username) or unavailable
      */
     public boolean checkUsernameAvailable(String username){
         //Connection connection = null;

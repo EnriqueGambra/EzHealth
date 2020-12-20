@@ -318,12 +318,12 @@ public class DoctorUpdatePatientView implements Initializable {
     } // end getPatientInfo
 
     /**
-     * @pre
+     * @pre must have a valid appointment and valid queries
      * @param id - patientID
      * @param query
      * @param dbColumnName - name of the column located in the database
      * @return null (indicating could not find result or error) or a String
-     * @post
+     * @post retrieves results from the database to be populated in the resulting textfield
      */
     public static String retrieveResultsFromDatabase(int patientID, String query, String dbColumnName){        
         ResultSet resultSet;

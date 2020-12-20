@@ -409,6 +409,7 @@ public class ReceptionistAppointmentView implements Initializable {
      * a map.
      * @param formattedDate - date of the list of appointments we want to retrieve
      * @return an ArrayList containing all appointment data for a specific date.
+     * @post retrieves valid appointment info
      */
     public ArrayList<HashMap<String, String>> retrieveAppointmentInfo(String formattedDate){
         //Checks the database to see if the date entered is within the DB
@@ -462,10 +463,11 @@ public class ReceptionistAppointmentView implements Initializable {
     }
 
     /**
+     * @pre must have a list of appointments received from the database
      * @param appointmentDataList - ArrayList containing a HashMap<String, String> that contains information about each separate appointment
-     * @post
      * Loops through the appointmentDataList passed in to call various methods
      * and begin displaying the values on various GUI components
+     * @post displays the appropriate appointment info
      */
     public void initDisplayAppointmentInfo(ArrayList<HashMap<String, String>> appointmentDataList){
         ArrayList<CreateAppointment> appointmentList = new ArrayList<>();
@@ -535,6 +537,7 @@ public class ReceptionistAppointmentView implements Initializable {
      * Retrieves the doctor's ID from the database and returns the doctor's last name
      * @param doctorID 
      * @return doctor's last name or null (indicating we could not find the name or error).
+     * @post retrieves the doctor ID
      */
     public String retrieveDoctorName(int doctorID){
         String doctorNameQuery = "SELECT users.last_name from users, doctors where "
@@ -623,9 +626,9 @@ public class ReceptionistAppointmentView implements Initializable {
 
     /**
      * @pre patientID within database
-     * Retrieves the patientID from the database and returns the patient's last name
      * @param patientID
      * @return patient's last name or null (indicating we could not find the name or error).
+     * @post Retrieves the patientID from the database and returns the patient's last name
      */
     public String retrievePatientLastName(int patientID){
         String patientLastNameQuery = "SELECT users.last_name "
